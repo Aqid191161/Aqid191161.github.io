@@ -57,8 +57,8 @@ Yearbook Digital 2025 adalah aplikasi web modern yang dirancang untuk menampilka
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/username/yearbook-2024.git
-   cd yearbook-2024
+   git clone https://github.com/Aqid191161/Yearbook.git
+   cd Yearbook
    ```
 
 2. **Buka File**
