@@ -44,7 +44,9 @@
     .section-title h2 { font-size: 32px; letter-spacing: -1px; }
 
     .grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
       margin-top: 20px;
     }
     .card {
@@ -84,7 +86,7 @@
     .detail-page h1 { font-size: 36px; letter-spacing: -1px; margin-bottom: 16px; }
     .detail-description { color: var(--muted); line-height: 1.9; max-width: 850px; }
 
-    .info-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 30px; }
+    .info-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-top: 30px; }
     .info-box { background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.8); padding: 22px; border-radius: 24px; transition: .3s ease; }
     .info-box:hover { transform: translateY(-4px); background: white; }
     .info-box span { color: var(--muted); display: block; margin-bottom: 10px; font-size: 13px; }
@@ -95,6 +97,9 @@
     .drive-btn:hover { transform: translateY(-2px); opacity: .92; }
     .share-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; background: rgba(17,24,39,0.08); color: #111827; border: none; text-decoration: none; border-radius: 16px; font-weight: 600; transition: all .3s ease; cursor: pointer; font-family: inherit; font-size: 16px; }
     .share-btn:hover { background: rgba(17,24,39,0.15); transform: translateY(-2px); }
+
+    /* Fix email overflow untuk layar kecil */
+    #adminContact { word-break: break-all; }
 
     /* NOTIFIKASI LINK KADALUARSA */
     .expired-overlay {
@@ -117,7 +122,35 @@
     .expired-overlay .close-notice { background: #111827; color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600; cursor: pointer; }
 
     footer { margin-top: 60px; text-align: center; color: var(--muted); font-size: 14px; }
-    @media(max-width: 768px) { body { padding: 16px; } .grid { grid-template-columns: 1fr; } .thumbnail { height: 220px; } .detail-thumbnail { height: 240px; } .detail-page h1 { font-size: 30px; } }
+
+    /* ======= MEDIA QUERIES UNTUK RESPONSIVE ======= */
+    @media(max-width: 768px) {
+      body { padding: 16px; }
+      .section-title { padding: 15px 0; margin-bottom: 16px; }
+      .section-title h2 { font-size: 26px; }
+      .grid { grid-template-columns: 1fr; gap: 16px; }
+      .thumbnail { height: 200px; }
+      .detail-page { padding: 20px; border-radius: 20px; }
+      .detail-thumbnail { height: 240px; border-radius: 16px; margin-bottom: 20px; }
+      .detail-page h1 { font-size: 28px; line-height: 1.2; margin-bottom: 12px; }
+
+      /* Menyusun tombol berderet ke bawah di HP agar mudah diklik */
+      .button-group { flex-direction: column; gap: 10px; }
+      .drive-btn, .share-btn { width: 100%; text-align: center; }
+
+      /* Mengatur ulang kotak info di HP */
+      .info-list { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+      .info-box { padding: 16px; border-radius: 16px; }
+      .info-box strong { font-size: 16px; }
+
+      .expired-overlay { padding: 20px; }
+      .expired-overlay h2 { font-size: 24px; }
+    }
+
+    @media(max-width: 480px) {
+      .info-list { grid-template-columns: 1fr; } /* Info List menjadi 1 baris penuh di HP sangat kecil */
+      .detail-page h1 { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -156,7 +189,6 @@
       <div style="margin-top:30px; padding:18px; background:#fff; border:1px solid rgba(0,0,0,0.06); border-radius:16px;">
         <h3 style="margin-bottom:8px; font-size:18px;">Contact Admin</h3>
         <p style="color:#6b7280; font-size:14px; line-height:1.6;" id="adminContact">
-          <br>
           Email: odvodsvoovszovoszvvqfqfiun5g894376b84nv.renewed597@passinbox.com
         </p>
       </div>
@@ -195,7 +227,7 @@
       },
     ];
 
-    let currentDriveUrl = ""; // Menyimpan URL drive yang sedang dibuka
+    let currentDriveUrl = "";
 
     function renderGallery() {
       const grid = document.getElementById('galleryGrid');
@@ -234,20 +266,18 @@
       document.getElementById('detailDate').innerText = item.date;
       document.getElementById('detailActiveTime').innerText = item.activeTime;
 
-      currentDriveUrl = item.driveLink; // Simpan link ke variabel global
-      document.getElementById('expiredNotice').style.display = 'none'; // Sembunyikan notif jika pindah halaman
+      currentDriveUrl = item.driveLink;
+      document.getElementById('expiredNotice').style.display = 'none';
 
       document.getElementById('homePage').style.display = 'none';
       document.getElementById('detailPage').style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Fungsi handle klik tombol Drive
     function handleDriveClick() {
       if (currentDriveUrl && currentDriveUrl !== "") {
         window.open(currentDriveUrl, '_blank');
       } else {
-        // Jika link kosong, tampilkan overlay kadaluarsa
         document.getElementById('expiredNotice').style.display = 'flex';
       }
     }
